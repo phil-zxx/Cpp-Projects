@@ -22,12 +22,12 @@ std::vector<double> BlackScholesPricer::getPriceGreeks_FD(const double h)
     const double basePrice = calcPrice<double>(S, K, r, v, T);
 
     std::vector<double> metrics({
-            basePrice,																					// NPV
-            (calcPrice<double>(S + h, K, r, v, T) - calcPrice<double>(S - h, K, r, v, T)) / (2 * h),	// DeltaSpot
-            (calcPrice<double>(S, K + h, r, v, T) - calcPrice<double>(S, K - h, r, v, T)) / (2 * h),	// DeltaStrike
-            (calcPrice<double>(S, K, r + h, v, T) - calcPrice<double>(S, K, r - h, v, T)) / (2 * h),	// Rho
-            (calcPrice<double>(S, K, r, v + h, T) - calcPrice<double>(S, K, r, v - h, T)) / (2 * h),	// Vega
-           -(calcPrice<double>(S, K, r, v, T + h) - calcPrice<double>(S, K, r, v, T - h)) / (2 * h)	// Theta
+            basePrice,                                                                                // NPV
+            (calcPrice<double>(S + h, K, r, v, T) - calcPrice<double>(S - h, K, r, v, T)) / (2 * h),  // DeltaSpot
+            (calcPrice<double>(S, K + h, r, v, T) - calcPrice<double>(S, K - h, r, v, T)) / (2 * h),  // DeltaStrike
+            (calcPrice<double>(S, K, r + h, v, T) - calcPrice<double>(S, K, r - h, v, T)) / (2 * h),  // Rho
+            (calcPrice<double>(S, K, r, v + h, T) - calcPrice<double>(S, K, r, v - h, T)) / (2 * h),  // Vega
+           -(calcPrice<double>(S, K, r, v, T + h) - calcPrice<double>(S, K, r, v, T - h)) / (2 * h)   // Theta
         });
 
     return metrics;
@@ -44,12 +44,12 @@ std::vector<double> BlackScholesPricer::getPriceGreeks_AD()
     stack.compute_adjoint();
 
     std::vector<double> metrics({
-            NPV.value(),			// NPV
-            S_AD.get_gradient(),	// DeltaSpot
-            K_AD.get_gradient(),	// DeltaStrike
-            r_AD.get_gradient(),	// Rho
-            v_AD.get_gradient(),	// Vega
-            -T_AD.get_gradient()	// Theta
+            NPV.value(),          // NPV
+            S_AD.get_gradient(),  // DeltaSpot
+            K_AD.get_gradient(),  // DeltaStrike
+            r_AD.get_gradient(),  // Rho
+            v_AD.get_gradient(),  // Vega
+            -T_AD.get_gradient()  // Theta
         });
 
     return metrics;
@@ -86,16 +86,16 @@ std::vector<double> BlackScholesPricer::calcPriceGreeks(double S, double K, doub
     const double PhiD2    = CDF(d2);
 
     std::vector<double> metrics({
-            S * PhiD1 - K * PhiD2 * DF,						// NPV
-            PhiD1,											// DeltaSpot
-            -DF*PhiD2,										// DeltaStrike
-            K*T*DF*PhiD2,									// Rho
-            S * PDF(d1) * std::sqrt(T),						// Vega
-            -0.5*S*phiD1*v / std::sqrt(T) - r * K*DF*PhiD2	// Theta
+            S * PhiD1 - K * PhiD2 * DF,                     // NPV
+            PhiD1,                                          // DeltaSpot
+            -DF*PhiD2,                                      // DeltaStrike
+            K*T*DF*PhiD2,                                   // Rho
+            S * PDF(d1) * std::sqrt(T),                     // Vega
+            -0.5*S*phiD1*v / std::sqrt(T) - r * K*DF*PhiD2  // Theta
         });
 
     return metrics;
 }
 
-//template double BlackScholesPricer::calcPrice(double S, double K, double r, double v, double T);
-//template adouble BlackScholesPricer::calcPrice(adouble S, adouble K, adouble r, adouble v, adouble T);
+// template double BlackScholesPricer::calcPrice(double S, double K, double r, double v, double T);
+// template adouble BlackScholesPricer::calcPrice(adouble S, adouble K, adouble r, adouble v, adouble T);

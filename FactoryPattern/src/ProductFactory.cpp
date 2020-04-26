@@ -1,4 +1,4 @@
-#include <include/ProductFactory.hpp>
+#include <ProductFactory.hpp>
 
 
 std::shared_ptr<Product> ProductFactory::create(const std::string& key, const std::map<std::string, double>& dictInputs)

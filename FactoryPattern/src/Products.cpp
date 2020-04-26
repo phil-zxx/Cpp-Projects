@@ -1,4 +1,4 @@
-#include <include/Products.hpp>
+#include <Products.hpp>
 
 
 Stock::Stock(const double& value)

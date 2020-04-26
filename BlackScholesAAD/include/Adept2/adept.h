@@ -10,6 +10,7 @@
 
 #ifndef Adept_H
 #define Adept_H 1
+#pragma warning (disable : 4267)
 
 #include <adept/settings.h>
 #include <adept/UnaryOperation.h>

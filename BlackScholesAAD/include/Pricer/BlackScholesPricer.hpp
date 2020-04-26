@@ -14,27 +14,27 @@ using adept::adouble;
 class BlackScholesPricer
 {
 public:
-	BlackScholesPricer(double SS, double KK, double rr, double vv, double TT);
+    BlackScholesPricer(double SS, double KK, double rr, double vv, double TT);
 
-	double getPrice();
+    double getPrice();
 
-	std::vector<double> getPriceGreeks_Analytical();
-	std::vector<double> getPriceGreeks_FD(const double h = 0.0001);
-	std::vector<double> getPriceGreeks_AD();
+    std::vector<double> getPriceGreeks_Analytical();
+    std::vector<double> getPriceGreeks_FD(const double h = 0.0001);
+    std::vector<double> getPriceGreeks_AD();
 
 private:
-	template<class number>
-	static number calcPrice(number S, number K, number r, number v, number T);
+    template<class number>
+    static number calcPrice(number S, number K, number r, number v, number T);
 
-	static std::vector<double> calcPriceGreeks(double S, double K, double r, double v, double T);
+    static std::vector<double> calcPriceGreeks(double S, double K, double r, double v, double T);
 
-	static double CDF(const double x);
-	static double PDF(const double x);
+    static double CDF(const double x);
+    static double PDF(const double x);
 
-	static adouble CDF(const adouble x);
-	static adouble PDF(const adouble x);
+    static adouble CDF(const adouble x);
+    static adouble PDF(const adouble x);
 
-	double S, K, r, v, T;
+    double S, K, r, v, T;
 };
 
 

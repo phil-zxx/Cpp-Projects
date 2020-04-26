@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <include/ProductFactory.hpp>
+#include <ProductFactory.hpp>
 
 
 int main()
