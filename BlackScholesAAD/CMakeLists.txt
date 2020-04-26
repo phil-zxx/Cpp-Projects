@@ -3,11 +3,7 @@ project(BlackScholesAAD)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(${PROJECT_NAME}
-    src/Source.cpp
-    src/Pricer/Clock.cpp
-    src/Pricer/BlackScholesPricer.cpp)
-
-target_include_directories(${PROJECT_NAME} PRIVATE
-    ./include/Adept2
-    ./include/Pricer)
+FILE(GLOB_RECURSE SRC_FILES src/*.cpp)
+add_executable(${PROJECT_NAME} ${SRC_FILES})
+target_include_directories(${PROJECT_NAME} PRIVATE ./include/Pricer)
+target_include_directories(${PROJECT_NAME} PRIVATE ./include/Adept2)

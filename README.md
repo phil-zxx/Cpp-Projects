@@ -1,2 +1,2 @@
-# Cpp-Projects
-C++ Projects
+# C++ Code Snippets
+
