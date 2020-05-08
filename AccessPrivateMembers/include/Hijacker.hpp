@@ -8,17 +8,17 @@ template<int S> struct Tag { };
 template<class Obj, auto Func, int S>
 struct HijackFunc
 {
-    friend auto hijackFunc(Obj& w, Tag<S>)
+    friend decltype(auto) hijackFunc(Obj& w, Tag<S>)
     {
         return (w.*Func)();
     }
 };
 
-template<class Obj, auto Func, int S>
+template<class Obj, auto Var, int S>
 struct HijackVar
 {
-    friend auto hijackVar(Obj& w, Tag<S>)
+    friend decltype(auto) hijackVar(Obj& w, Tag<S>)
     {
-        return w.*Func;
+        return w.*Var;
     }
 };

@@ -6,8 +6,8 @@ public:
     DummyClass();
 
 private:
-    const char* privateFunc1();
-    const char* privateFunc2();
+    const char* privateMsg() const;
+    int& privatePinRef();
 
-    int secretVariable;
+    int m_privatePin;
 };

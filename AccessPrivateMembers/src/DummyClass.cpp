@@ -1,14 +1,14 @@
 #include <DummyClass.hpp>
 
 DummyClass::DummyClass()
-    : secretVariable(1234) { }
+    : m_privatePin(1234) { }
 
-const char* DummyClass::privateFunc1()
+const char* DummyClass::privateMsg() const
 {
-    return "secret Gadget text";
+    return "some secret text";
 }
 
-const char* DummyClass::privateFunc2()
+int& DummyClass::privatePinRef()
 {
-    return "more secret Gadget text";
+    return this->m_privatePin;
 }
