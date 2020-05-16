@@ -1,9 +1,9 @@
 #include <Hijacker.hpp>
 #include <DummyClass.hpp>
 
-template struct HijackFunc<DummyClass, &DummyClass::privateMsg,    0>;
-template struct HijackFunc<DummyClass, &DummyClass::privatePinRef, 1>;
-template struct HijackVar <DummyClass, &DummyClass::m_privatePin,  0>;
+HIJACK_FUNC(DummyClass, DummyClass::privateMsg,    0)
+HIJACK_FUNC(DummyClass, DummyClass::privatePinRef, 1)
+HIJACK_VAR (DummyClass, DummyClass::m_privatePin,  0)
 
 int main()
 {

@@ -22,3 +22,6 @@ struct HijackVar
         return w.*Var;
     }
 };
+
+#define HIJACK_FUNC(CLASSNAME, FUNCSIG, TAGINT) template struct HijackFunc<CLASSNAME, &FUNCSIG, TAGINT>; decltype(auto) hijackFunc(CLASSNAME& w, Tag<TAGINT>);
+#define HIJACK_VAR( CLASSNAME, VARSIG,  TAGINT) template struct HijackVar <CLASSNAME, &VARSIG,  TAGINT>; decltype(auto) hijackVar (CLASSNAME& w, Tag<TAGINT>);
