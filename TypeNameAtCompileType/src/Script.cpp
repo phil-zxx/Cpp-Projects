@@ -14,7 +14,7 @@ int main()
     static_assert(TypeInfo::getTypeName<float>()  == "float");
     static_assert(TypeInfo::getTypeName<double>() == "double");
 
-    #if defined(__clang__)
+    #if defined(__clang__) || defined(__GNUC__)
         static_assert(TypeInfo::getTypeName<MyOwn::TestClass>()          == "MyOwn::TestClass");
         static_assert(TypeInfo::getTypeName<DerivedClass<int, double>>() == "DerivedClass<int, double>");
     #else
