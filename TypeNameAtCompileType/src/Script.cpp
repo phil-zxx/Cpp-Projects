@@ -1,26 +1,20 @@
 #include <TypeInfo.hpp>
+#include <iostream>
 
 namespace MyOwn
 {
     class TestClass { };
 }
 
-template<class T, class U>
+template<class T>
 struct DerivedClass { };
 
 int main()
 {
-    static_assert(TypeInfo::getTypeName<int>()    == "int");
-    static_assert(TypeInfo::getTypeName<float>()  == "float");
-    static_assert(TypeInfo::getTypeName<double>() == "double");
-
-    #if defined(__clang__) || defined(__GNUC__)
-        static_assert(TypeInfo::getTypeName<MyOwn::TestClass>()          == "MyOwn::TestClass");
-        static_assert(TypeInfo::getTypeName<DerivedClass<int, double>>() == "DerivedClass<int, double>");
-    #else
-        static_assert(TypeInfo::getTypeName<MyOwn::TestClass>()          == "class MyOwn::TestClass");
-        static_assert(TypeInfo::getTypeName<DerivedClass<int, double>>() == "struct DerivedClass<int,double>");
-    #endif
+    std::cout << "TypeInfo::getTypeName<int>()               = '" << TypeInfo::getTypeName<int>()               << "'\n"
+              << "TypeInfo::getTypeName<double>()            = '" << TypeInfo::getTypeName<double>()            << "'\n"
+              << "TypeInfo::getTypeName<MyOwn::TestClass>()  = '" << TypeInfo::getTypeName<MyOwn::TestClass>()  << "'\n"
+              << "TypeInfo::getTypeName<DerivedClass<int>>() = '" << TypeInfo::getTypeName<DerivedClass<int>>() << "'\n";
 
     return 0;
 }
