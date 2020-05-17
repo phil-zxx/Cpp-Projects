@@ -23,15 +23,15 @@ namespace TypeInfo
         constexpr auto probeRawTypeName     = rawTypeName<double>();
         constexpr size_t probeRawTypeLength = std::string_view("double").size();
         constexpr size_t prefixLength       = probeRawTypeName.find("double");
-        static_assert(prefixLength != std::string_view::npos,
-            "cannot extract typename from function signature");
+
+        static_assert(prefixLength != std::string_view::npos, "cannot extract typename from function signature");
         constexpr size_t suffixLength = probeRawTypeName.size() - prefixLength - probeRawTypeLength;
     }
 
-    template <class T> constexpr auto getTypeName()
+    template <class T>
+    constexpr std::string_view getTypeName()
     {
-        std::string_view name = rawTypeName<T>();
-        return std::string_view(name.data() + probe::prefixLength,
-            name.size() - probe::prefixLength - probe::suffixLength);
+        constexpr std::string_view name = rawTypeName<T>();
+        return std::string_view(name.data() + probe::prefixLength, name.size() - probe::prefixLength - probe::suffixLength);
     }
 }
