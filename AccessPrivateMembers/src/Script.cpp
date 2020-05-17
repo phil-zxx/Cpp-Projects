@@ -1,9 +1,10 @@
 #include <Hijacker.hpp>
 #include <DummyClass.hpp>
+#include <type_traits>
 
-HIJACK_FUNC(DummyClass, DummyClass::privateMsg,    0)
-HIJACK_FUNC(DummyClass, DummyClass::privatePinRef, 1)
-HIJACK_VAR (DummyClass, DummyClass::m_privatePin,  0)
+HIJACK_FUNC(0, DummyClass, DummyClass::privateMsg,    const char*)
+HIJACK_FUNC(1, DummyClass, DummyClass::privatePinRef, int&)
+HIJACK_VAR (0, DummyClass, DummyClass::m_privatePin,  int&)
 
 int main()
 {
@@ -13,15 +14,15 @@ int main()
     // auto privatePin1 = obj.privatePinRef();                                function DummyClass::privatePinRef and
     // auto privatePin2 = obj.m_privatePin;                                   member   DummyClass::m_privatePin  are inaccessible
     
-    auto getMsg  = [&]() { return hijackFunc(obj, Tag<0>{}); };
-    auto getPin1 = [&]() { return hijackFunc(obj, Tag<1>{}); };
-    auto getPin2 = [&]() { return hijackVar (obj, Tag<0>{}); };
-    auto privateMsg  = getMsg();   // Call private function DummyClass::privateMsg
-    auto privatePin1 = getPin1();  // Call private function DummyClass::privatePinRef
-    auto privatePin2 = getPin2();  // Obtain private member DummyClass::m_privatePin
+    const auto getMsg  = [&]() { return hijackFunc0(obj); };
+    const auto getPin1 = [&]() { return hijackFunc1(obj); };
+    const auto getPin2 = [&]() { return hijackVar0 (obj); };
+    const auto privateMsg  = getMsg();   // Call private function DummyClass::privateMsg
+    const auto privatePin1 = getPin1();  // Call private function DummyClass::privatePinRef
+    const auto privatePin2 = getPin2();  // Obtain private member DummyClass::m_privatePin
 
-    auto setPin1 = [&](int newPin) { hijackFunc(obj, Tag<1>{}) = newPin; };
-    auto setPin2 = [&](int newPin) { hijackVar (obj, Tag<0>{}) = newPin; };
+    const auto setPin1 = [&](int newPin) { hijackFunc1(obj) = newPin; };
+    const auto setPin2 = [&](int newPin) { hijackVar0 (obj) = newPin; };
     setPin1(8888);  // Obtain reference to private member DummyClass::m_privatePin (via DummyClass::privatePinRef) and set it to 8888
     setPin2(9999);  // Obtain reference to private member DummyClass::m_privatePin directly and set it to 9999
 

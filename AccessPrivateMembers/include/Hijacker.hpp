@@ -3,25 +3,14 @@
 // Based on https://accu.org/index.php/journals/2776
 // "Profiting from the Folly of Others" by Alastair Harrison
 
-template<int S> struct Tag { };
+#define HIJACK_FUNC(TAGINT, CLASSNAME, FUNCSIG, RETURNTYPE) \
+    template<auto Func> \
+    struct HijackFunc##TAGINT { friend RETURNTYPE hijackFunc##TAGINT(CLASSNAME& w) { return (w.*Func)(); } }; \
+    template struct HijackFunc##TAGINT<&FUNCSIG>; \
+    RETURNTYPE hijackFunc##TAGINT(CLASSNAME& w);
 
-template<class Obj, auto Func, int S>
-struct HijackFunc
-{
-    friend decltype(auto) hijackFunc(Obj& w, Tag<S>)
-    {
-        return (w.*Func)();
-    }
-};
-
-template<class Obj, auto Var, int S>
-struct HijackVar
-{
-    friend decltype(auto) hijackVar(Obj& w, Tag<S>)
-    {
-        return w.*Var;
-    }
-};
-
-#define HIJACK_FUNC(CLASSNAME, FUNCSIG, TAGINT) template struct HijackFunc<CLASSNAME, &FUNCSIG, TAGINT>; decltype(auto) hijackFunc(CLASSNAME& w, Tag<TAGINT>);
-#define HIJACK_VAR( CLASSNAME, VARSIG,  TAGINT) template struct HijackVar <CLASSNAME, &VARSIG,  TAGINT>; decltype(auto) hijackVar (CLASSNAME& w, Tag<TAGINT>);
+#define HIJACK_VAR(TAGINT, CLASSNAME, VARSIG, RETURNTYPE) \
+    template<auto Var> \
+    struct HijackVar##TAGINT { friend RETURNTYPE hijackVar##TAGINT(CLASSNAME& w) { return w.*Var; } }; \
+    template struct HijackVar##TAGINT<&VARSIG>; \
+    RETURNTYPE hijackVar##TAGINT(CLASSNAME& w);
